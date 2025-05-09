@@ -1,16 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do List</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css"
+    />
     <script src="index.js"></script>
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">My Todo App</h1>
-        <button class="btn btn-primary">Add Todo</button>
+  </head>
+  <body>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1"
+          ><i class="bi bi-card-checklist"></i> To Do App</span
+        >
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+          id="todoBtn"
+        >
+          Add To Do
+        </button>
       </div>
-</body>
+    </nav>
+
+    <div class="content-container">
+      <div class="sidebar">
+        <div class="sidebar-container-one">
+          <span><i class="bi bi-globe-americas"></i> All</span>
+          <span><i class="bi bi-inbox-fill"></i> Inbox</span>
+          <span><i class="bi bi-check-lg"></i> Completed</span>
+          <span><i class="bi bi-exclamation-circle-fill"></i> Important</span>
+        </div>
+        <div class="sidebar-container-two">
+          <span class="projects"
+            ><i class="bi bi-file-earmark-diff-fill"></i> Projects</span
+          >
+          <button type="button" class="btn btn-light"
+          id="new-project-btn">
+            New Project
+          </button>
+        </div>
+      </div>
+      <div class="todo-container"></div>
+    </div>
+<!--modals-->
+    <div class="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">New task</h5>
+            <button
+              type="button"
+              class="btn-close"
+              id="todo-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+            <div class="custom-container">
+                <div class="col-container-one">
+                  <div class="form-group">
+                    <label for="taskTitle">Title: </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="taskTitle"
+                      maxlength="30"
+                      required=""
+                    />
+                    <div class="invalid-feedback">Task title is required</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Description</label>
+                    <textarea
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="col-container-two">
+                  <div class="form-group">
+                    <label for="taskDueDate">Due Date: </label>
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      id="taskDueDate"
+                      max="2030-01-01T00:00"
+                      required=""
+                      min="2025-05-08T00:00"
+                    />
+                    <div class="invalid-feedback">Due date is required</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="taskPriority">Priority: </label>
+                    <select class="custom-select" id="taskPriority" required="">
+                      <option value="low" selected="">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                    <div class="invalid-feedback">Priority required</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="taskProject">Project: </label>
+                    <select class="custom-select" id="taskProject" required="">
+                      <option data-newtasktargetproject="_vchzcrdkm">
+                        Inbox
+                      </option>
+                    </select>
+                    <div class="invalid-feedback">Project required</div>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  id="close-btn-todo"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                  Add Task
+                </button>
+              </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade show" id="newProjectModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="model-Title">New Project</h5>
+              <button
+              type="button"
+              class="btn-close"
+              id="project-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+            </div>
+            <div class="modal-body" id="modale-body">
+              <form class="needs-validation" id="newProjectForm" novalidate="">
+                <div class="form-group">
+                  <label for="taskTitle">Name: </label>
+                  <input type="text" class="form-control" id="projectName" maxlength="20" required="">
+                  <div class="invalid-feedback">Project name is required</div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                      id="close-btn-project"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                      Add Task
+                    </button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </body>
 </html>
