@@ -1,0 +1,95 @@
+.sidebar-container-one {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.sidebar {
+    height: 91.1vh;
+    padding: 40px 0 0 40px;
+    background-color: #0e2242;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    font-size: 20px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+.projects {
+    font-weight: 900;
+}
+.sidebar-container-two {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-light {
+    width: 140px;
+}
+
+.navbar-brand {
+    padding-left: 40px;
+}
+
+.navbar {
+    --bs-navbar-padding-y: 1.5rem;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.281);
+    background-color: rgb(163, 211, 250);
+}
+
+.content-container {
+    display: grid;
+    grid-template-columns: 16% 84%;
+}
+
+.modal {
+    display: none;
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.658);
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.custom-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.custom-select {
+    display: inline-block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem 1.75rem .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.todo-container {
+    background-image: url(asset/bg.jpg);
+    background-size: 1700px;
+    background-repeat: no-repeat;
+}
+
+.btn-primary {
+    background-color: #183159;
+    border-color: #183159;
+}
+
+.btn-primary:hover {
+    background-color: #385179;
+}
