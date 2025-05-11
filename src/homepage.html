@@ -50,7 +50,8 @@
           </button>
         </div>
       </div>
-      <div class="todo-container"></div>
+      <div class="todo-container">
+      </div>
     </div>
 <!--modals-->
     <div class="modal" tabindex="-1">
@@ -67,7 +68,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form class="needs-validation" id="newTodo" novalidate="">
             <div class="custom-container">
                 <div class="col-container-one">
                   <div class="form-group">
@@ -98,7 +99,7 @@
                       class="form-control"
                       id="taskDueDate"
                       max="2030-01-01T00:00"
-                      required=""
+                      required
                       min="2025-05-08T00:00"
                     />
                     <div class="invalid-feedback">Due date is required</div>
@@ -132,7 +133,7 @@
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                   Add Task
                 </button>
               </div>
