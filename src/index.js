@@ -11,8 +11,15 @@ const projectCloseBtn = document.getElementById("project-close");
 const addProjectBtn = document.getElementById("new-project-btn");
 const closeBtnProject = document.getElementById("close-btn-project");
 const todoContainer = document.querySelector(".todo-container");
+const titleValue = document.getElementById("title");
+const descriptionValue = document.getElementById("description");
+const dueDateValue = document.getElementById("dueDate");
+const priorityValue = document.getElementById("priority");
+
 const todoForm = document.getElementById("newTodo");
-// todoForm.addEventListener("sumbit", submitForm);
+todoForm.addEventListener("submit", submitTodoForm);
+
+console.log(todoForm);
 
 window.onclick = function (event) {
   if (event.target === todoModal) {
@@ -60,28 +67,28 @@ class TodoItem {
 const firstTodo = new TodoItem(
   "Need to start going to the Gym",
   "I want to go to the gym and get strong",
-  "05/12/25",
+  "2025-05-12",
   "Medium",
   "Default"
 );
 const secondTodo = new TodoItem(
   "I want to read more books",
   "I want to finish the book Demon Haunted World",
-  "05/29/25",
+  "2025-05-29",
   "High",
   "Default"
 );
 const thirdTodo = new TodoItem(
   "Get that associates degree to transfer to a 4-year",
   "I want graduate with my Associate of Science",
-  "06/05/25",
+  "2025-06-05",
   "High",
   "Default"
 );
 const fourthTodo = new TodoItem(
   "I want to play some videogames over the summer",
   "I want to play a lot of games",
-  "06/05/25",
+  "2025-05-06",
   "Low",
   "Default"
 );
@@ -90,10 +97,10 @@ console.log(firstTodo);
 
 function addTodo(title, description, dueDate, priority, project) {
     const newTodo = new TodoItem(title, description, dueDate, priority, project);
-    renderTodo(newTodo)
+    renderTodo(newTodo);
 }
 
-addTodo("I want to go on long walks on the beach", "It's always been a dream of mine I want to go on long walks with Loki & Tyr", "03/02/12", "High", "Default");
+addTodo("I want to go on long walks on the beach", "It's always been a dream of mine I want to go on long walks with Loki & Tyr", "2012-03-02", "High", "Default");
 
 function renderTodo(todo) {
   const newTodoRow = document.createElement("div");
@@ -182,6 +189,24 @@ function removeTodo(todoId) {
   }
 }
 
+function submitTodoForm(e) {
+    e.preventDefault();
+
+    if (!todoForm.checkValidity()) {
+        todoForm.reportValidity(); // show validation messages
+        return;
+      }
+
+    const title = titleValue.value;
+    const description = descriptionValue.value;
+    const dueDate = dueDateValue.value;
+    const priority = priorityValue.value;
+    const project = "Default";
+
+    addTodo(title, description, dueDate, priority, project);
+    todoForm.reset();
+    todoModal.style.display = "none";
+}
 
 
 renderTodo(firstTodo);
