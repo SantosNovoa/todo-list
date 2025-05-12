@@ -87,6 +87,14 @@ const fourthTodo = new TodoItem(
 );
 console.log(firstTodo);
 
+
+function addTodo(title, description, dueDate, priority, project) {
+    const newTodo = new TodoItem(title, description, dueDate, priority, project);
+    renderTodo(newTodo)
+}
+
+addTodo("I want to go on long walks on the beach", "It's always been a dream of mine I want to go on long walks with Loki & Tyr", "03/02/12", "High", "Default");
+
 function renderTodo(todo) {
   const newTodoRow = document.createElement("div");
   newTodoRow.className = "todo-row";
