@@ -16,7 +16,7 @@ const descriptionValue = document.getElementById("description");
 const dueDateValue = document.getElementById("dueDate");
 const priorityValue = document.getElementById("priority");
 const projectValue = document.getElementById("taskProject");
-const titleDiv = document.querySelector(".title-div")
+const titleDiv = document.querySelector(".title-div");
 const descriptionDiv = document.querySelector(".description-div");
 const dueDateDiv = document.querySelector(".due-date-div");
 const priorityDiv = document.querySelector(".priority-div");
@@ -31,19 +31,16 @@ todoForm.addEventListener("submit", submitTodoForm);
 const projectForm = document.getElementById("newProjectForm");
 projectForm.addEventListener("submit", submitProjectForm);
 
-
 console.log(todoForm);
 
 const sidebar = document.querySelector(".sidebar");
 const container = document.querySelector(".content-container");
-document
-  .getElementById("sidebar-toggle")
-  .addEventListener("click", () => {
-    sidebar.classList.toggle("closed");
-    container.classList.toggle("sidebar-collapsed");
-  });
+document.getElementById("sidebar-toggle").addEventListener("click", () => {
+  sidebar.classList.toggle("closed");
+  container.classList.toggle("sidebar-collapsed");
+});
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target === todoModal) {
     todoModal.style.display = "none";
   } else if (event.target === projectModal) {
@@ -51,31 +48,27 @@ window.onclick = function(event) {
   }
 };
 
-projectBtn.onclick = function() {
-  projectModal.style.display = "none";
-}
-
-addTodoBtn.onclick = function() {
+addTodoBtn.onclick = function () {
   todoModal.style.display = "block";
 };
 
-todoCloseBtn.onclick = function() {
+todoCloseBtn.onclick = function () {
   todoModal.style.display = "none";
 };
 
-closeBtnTodo.onclick = function() {
+closeBtnTodo.onclick = function () {
   todoModal.style.display = "none";
 };
 
-projectCloseBtn.onclick = function() {
+projectCloseBtn.onclick = function () {
   projectModal.style.display = "none";
 };
 
-addProjectBtn.onclick = function() {
+addProjectBtn.onclick = function () {
   projectModal.style.display = "block";
 };
 
-closeBtnProject.onclick = function() {
+closeBtnProject.onclick = function () {
   projectModal.style.display = "none";
 };
 
@@ -91,44 +84,22 @@ class TodoItem {
   }
 }
 
-
-const firstTodo = new TodoItem(
-  "Need to start going to the Gym",
-  "I want to go to the gym and get strong",
-  "2025-05-12",
-  "Medium",
-  "Inbox"
-);
-const secondTodo = new TodoItem(
-  "I want to read more books",
-  "I want to finish the book Demon Haunted World",
-  "2025-05-29",
-  "High",
-  "Inbox"
-);
-const thirdTodo = new TodoItem(
-  "Get that associates degree to transfer to a 4-year",
-  "I want graduate with my Associate of Science",
-  "2025-06-05",
-  "High",
-  "Inbox"
-);
-const fourthTodo = new TodoItem(
-  "I want to play some videogames over the summer",
-  "I want to play a lot of games",
-  "2025-05-06",
-  "Low",
-  "Inbox"
-);
-console.log(firstTodo);
-
-
 function addTodo(title, description, dueDate, priority, project) {
-    const newTodo = new TodoItem(title, description, dueDate, priority, project);
-    renderTodo(newTodo);
+  const newTodo = new TodoItem(title, description, dueDate, priority, project);
+
+  if (!projects[project]) {
+    projects[project] = [];
+  }
+
+  projects[project].push(newTodo);
+  projects.All.push(newTodo);
+  console.log(projects[project]);
+
+  renderTodo(newTodo);
 }
 
 function renderTodo(todo) {
+  
   const newTodoRow = document.createElement("div");
   newTodoRow.className = "todo-row";
   todoContainer.appendChild(newTodoRow);
@@ -168,7 +139,6 @@ function renderTodo(todo) {
   priority.textContent = todo.priority;
   priority.className = "priority";
 
-
   // checking what the user entered as a priority
   if (priority.textContent == "High") {
     newTodoRow.classList.add("high-priority");
@@ -185,34 +155,30 @@ function renderTodo(todo) {
   removeBtn.appendChild(remove);
   rightSide.appendChild(removeBtn);
 
-
-
   const info = document.createElement("i");
   info.className = "bi bi-info-circle";
   const infoBtn = document.createElement("button");
   infoBtn.className = "info";
   infoBtn.appendChild(info);
-  rightSide.appendChild(infoBtn)
+  rightSide.appendChild(infoBtn);
   newTodoRow.appendChild(rightSide);
 
   const infoModal = document.getElementById("infoModal");
   const infoModalBody = document.getElementById("info-modal-body");
   const infoClose = document.getElementById("info-close");
   const closeInfoBtn = document.getElementById("close-btn-task-info");
-  
- 
-  closeInfoBtn.onclick = function() {
-    infoModal.style.display = "none";
-  }
 
-  infoClose.onclick = function() {
+  closeInfoBtn.onclick = function () {
     infoModal.style.display = "none";
-  }
+  };
 
-  infoBtn.onclick = function() {
+  infoClose.onclick = function () {
+    infoModal.style.display = "none";
+  };
+
+  infoBtn.onclick = function () {
     infoModal.style.display = "block";
 
-    
     //clear previous contents of the div's
     titleDiv.innerHTML = "";
     descriptionDiv.innerHTML = "";
@@ -268,7 +234,7 @@ function renderTodo(todo) {
     projectSpan.className = "info-task";
     projectSpan.textContent = todo.project;
     projectDiv.appendChild(projectSpan);
-  }
+  };
 
   //remove button event listener
   removeBtn.addEventListener("click", function () {
@@ -292,8 +258,6 @@ function renderTodo(todo) {
   });
 }
 
-
-
 function removeTodo(todoId) {
   const rowToRemove = document.querySelector(`.todo-row[data-id="${todoId}"]`);
   if (rowToRemove) {
@@ -301,22 +265,22 @@ function removeTodo(todoId) {
   }
 }
 function submitTodoForm(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!todoForm.checkValidity()) {
-        todoForm.reportValidity(); // show validation messages
-        return;
-      }
+  if (!todoForm.checkValidity()) {
+    todoForm.reportValidity(); // show validation messages
+    return;
+  }
 
-    const title = titleValue.value;
-    const description = descriptionValue.value;
-    const dueDate = dueDateValue.value;
-    const priority = priorityValue.value;
-    const project = projectValue.value;
+  const title = titleValue.value;
+  const description = descriptionValue.value;
+  const dueDate = dueDateValue.value;
+  const priority = priorityValue.value;
+  const project = projectValue.value;
 
-    addTodo(title, description, dueDate, priority, project);
-    todoForm.reset();
-    todoModal.style.display = "none";
+  addTodo(title, description, dueDate, priority, project);
+  todoForm.reset();
+  todoModal.style.display = "none";
 }
 
 function submitProjectForm(e) {
@@ -333,25 +297,16 @@ function submitProjectForm(e) {
   projectModal.style.display = "none";
 }
 
-
-renderTodo(firstTodo);
-renderTodo(secondTodo);
-renderTodo(thirdTodo);
-renderTodo(fourthTodo);
-
 const projects = {
-  Default: []
+  All: [],
 };
-
 
 function addProject(name) {
   if (!projects[name]) {
     projects[name] = [];
     renderProject(name);
-
   }
 }
-
 
 function renderProject(projectName) {
   const projectItem = document.createElement("div");
@@ -359,8 +314,87 @@ function renderProject(projectName) {
   projectItem.classList.add("project-item");
   projectContainer.appendChild(projectItem);
 
-  const dropdownItem = document.createElement("option")
+//update the dropdown menu for the add to do form
+  const dropdownItem = document.createElement("option");
   dropdownItem.value = projectName;
   dropdownItem.textContent = projectName;
   dropdownProject.appendChild(dropdownItem);
+
+  projectItem.addEventListener("click", () => {
+    filterTodosByProject(projectName);
+  });
 }
+
+addProject("Default Project")
+addProject("Default Project 2")
+
+function filterTodosByProject(projectName) {
+  todoContainer.innerHTML = "";
+
+  const projectTitle = document.createElement("h1");
+  projectTitle.className = "project-title"
+  projectTitle.textContent = projectName;
+  todoContainer.appendChild(projectTitle);
+
+  const todos = projects[projectName] || [];
+
+  todos.forEach((todo) => renderTodo(todo));
+}
+
+function filterImportantTodos() {
+  todoContainer.innerHTML = "";
+
+  const projectTitle = document.createElement("h1");
+  projectTitle.className = "project-title"
+  projectTitle.textContent = "Important";
+  todoContainer.appendChild(projectTitle);
+
+  const todos = projects["All"] || [];
+
+  todos.forEach((todo) =>{
+    if (todo.priority === "High") {
+      renderTodo(todo)
+    }
+  });
+}
+
+
+
+document.getElementById("all-project").addEventListener("click", () => {
+  filterTodosByProject("All");
+});
+
+document.getElementById("important-project").addEventListener("click", () => {
+  filterImportantTodos();
+});
+
+addTodo(
+  "Need to start going to the Gym",
+  "I want to go to the gym and get strong",
+  "2025-05-12",
+  "Medium",
+  "Default Project 2"
+);
+addTodo(
+  "I want to read more books",
+  "I want to finish the book Demon Haunted World",
+  "2025-05-29",
+  "High",
+  "Default Project"
+);
+addTodo(
+  "Get that associates degree to transfer to a 4-year",
+  "I want graduate with my Associate of Science",
+  "2025-06-05",
+  "High",
+  "Default Project 2"
+);
+addTodo(
+  "I want to play some videogames over the summer",
+  "I want to play a lot of games",
+  "2025-05-06",
+  "Low",
+  "Default Project"
+);
+
+filterTodosByProject("Default Project");
