@@ -250,3 +250,15 @@ span.info-task.desc {
   display: flex;
   flex-direction: column;
 }
+
+.project-item {
+  cursor: pointer;
+}
+
+#all-project, #important-project {
+  cursor: pointer;
+}
+
+.project-title {
+  color: white;
+}
