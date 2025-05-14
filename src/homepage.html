@@ -14,11 +14,14 @@
     />
   </head>
   <body>
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar">
       <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1"
-          ><i class="bi bi-card-checklist"></i> To Do App</span
-        >
+        <span class="navbar-brand mb-0 h1">
+          <button class="sidebar-btn" id="sidebar-toggle">
+            <i class="bi bi-list"></i>
+          </button>
+          To Do App
+        </span>
         <button
           type="button"
           class="btn btn-primary"
@@ -30,9 +33,25 @@
         </button>
       </div>
     </nav>
-
+    <div class="sidebar">
+      <div class="sidebar-container-one">
+        <span><i class="bi bi-globe-americas"></i> All</span>
+        <span><i class="bi bi-inbox-fill"></i> Inbox</span>
+        <span><i class="bi bi-check-lg"></i> Completed</span>
+        <span><i class="bi bi-exclamation-circle-fill"></i> Important</span>
+      </div>
+      <div class="sidebar-container-two">
+        <button type="submit" class="btn btn-light" id="project-btn">
+          New Project
+        </button>
+        <span class="projects"
+          ><i class="bi bi-file-earmark-diff-fill"></i> Projects</span>
+        <div class="project-container">
+        </div>
+      </div>
+    </div>
     <div class="content-container">
-      <div class="sidebar">
+      <!-- <div class="sidebar">
         <div class="sidebar-container-one">
           <span><i class="bi bi-globe-americas"></i> All</span>
           <span><i class="bi bi-inbox-fill"></i> Inbox</span>
@@ -48,11 +67,10 @@
             New Project
           </button>
         </div>
-      </div>
-      <div class="todo-container">
-      </div>
+      </div> -->
+      <div class="todo-container"></div>
     </div>
-<!--modals-->
+    <!--modals-->
     <div class="modal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -68,15 +86,15 @@
           </div>
           <div class="modal-body">
             <form class="needs-validation" id="newTodo" novalidate="">
-            <div class="custom-container">
+              <div class="custom-container">
                 <div class="col-container-one">
                   <div class="form-group">
-                    <label for="taskTitle">Title: </label>
+                    <label for="title">Title: </label>
                     <input
                       type="text"
                       class="form-control"
                       id="title"
-                      maxlength="30"
+                      maxlength="100"
                       required=""
                     />
                     <div class="invalid-feedback">Task title is required</div>
@@ -102,7 +120,7 @@
                     <div class="invalid-feedback">Due date is required</div>
                   </div>
                   <div class="form-group">
-                    <label for="taskPriority">Priority: </label>
+                    <label for="priority">Priority: </label>
                     <select class="custom-select" id="priority" required="">
                       <option value="Low" selected="">Low</option>
                       <option value="Medium">Medium</option>
@@ -113,70 +131,116 @@
                   <div class="form-group">
                     <label for="taskProject">Project: </label>
                     <select class="custom-select" id="taskProject" required="">
-                      <option data-newtasktargetproject="_vchzcrdkm">
+                      <option value="Inbox" selected="">
                         Inbox
                       </option>
                     </select>
                     <div class="invalid-feedback">Project required</div>
                   </div>
                 </div>
-            </div>
-            <div class="modal-footer">
+              </div>
+              <div class="modal-footer">
                 <button
-                  type="button"
+                  type="submit"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
                   id="close-btn-todo"
                 >
                   Close
                 </button>
-                <button type="submit" class="btn btn-primary">
-                  Add Task
-                </button>
+                <button type="submit" class="btn btn-primary">Add Project</button>
               </div>
-        </form>
+            </form>
           </div>
         </div>
       </div>
     </div>
 
     <div class="modal fade show" id="newProjectModal">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="model-Title">New Project</h5>
-              <button
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="model-Title">New Project</h5>
+            <button
               type="button"
               class="btn-close"
               id="project-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-            </div>
-            <div class="modal-body" id="modale-body">
-              <form class="needs-validation" id="newProjectForm" novalidate="">
-                <div class="form-group">
-                  <label for="taskTitle">Name: </label>
-                  <input type="text" class="form-control" id="projectName" maxlength="20" required="">
-                  <div class="invalid-feedback">Project name is required</div>
-                </div>
-                <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                      id="close-btn-project"
-                    >
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                      Add Task
-                    </button>
-                  </div>
-              </form>
-            </div>
+          </div>
+          <div class="modal-body" id="modale-body">
+            <form class="needs-validation" id="newProjectForm" novalidate="">
+              <div class="form-group">
+                <label for="taskTitle">Name: </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="projectName"
+                  maxlength="20"
+                  required=""
+                />
+                <div class="invalid-feedback">Project name is required</div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  id="close-btn-project"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary" id="project-btn">Add Task</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="modal" id="infoModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Task Info</h5>
+            <button
+              type="button"
+              class="btn-close"
+              id="info-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="info-modal-body">
+            <div class="title-div info">
+
+            </div>
+            <div class="description-div info">
+
+            </div>
+            <div class="due-date-div info">
+
+            </div>
+            <div class="priority-div info">
+
+            </div>
+            <div class="project-div info">
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              id="close-btn-task-info"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
