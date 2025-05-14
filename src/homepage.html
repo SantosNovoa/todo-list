@@ -35,10 +35,9 @@
     </nav>
     <div class="sidebar">
       <div class="sidebar-container-one">
-        <span><i class="bi bi-globe-americas"></i> All</span>
-        <span><i class="bi bi-inbox-fill"></i> Inbox</span>
+        <span id="all-project"><i class="bi bi-globe-americas"></i> All</span>
         <span><i class="bi bi-check-lg"></i> Completed</span>
-        <span><i class="bi bi-exclamation-circle-fill"></i> Important</span>
+        <span id="important-project"><i class="bi bi-exclamation-circle-fill"></i> Important</span>
       </div>
       <div class="sidebar-container-two">
         <button type="submit" class="btn btn-light" id="project-btn">
@@ -131,9 +130,6 @@
                   <div class="form-group">
                     <label for="taskProject">Project: </label>
                     <select class="custom-select" id="taskProject" required="">
-                      <option value="Inbox" selected="">
-                        Inbox
-                      </option>
                     </select>
                     <div class="invalid-feedback">Project required</div>
                   </div>
