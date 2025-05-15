@@ -256,6 +256,18 @@ function renderTodo(todo) {
       todo.completed = false;
     }
   });
+
+//this code makes sure that the styling of the complete persists even after you've
+//clicked the completed tab on the sidebar
+  if (todo.completed == true) {
+      complete.classList.replace("bi-circle", "bi-check-circle");
+      title.classList.add("task-done-text");
+      newTodoRow.style.backgroundColor = "#d8d8d8";
+  } else if (todo.completed == false) {
+      complete.classList.replace("bi-check-circle", "bi-circle");
+      title.classList.remove("task-done-text");
+      newTodoRow.style.backgroundColor = "#fff";
+  }
 }
 
 function removeTodo(todoId) {
@@ -358,15 +370,38 @@ function filterImportantTodos() {
   });
 }
 
+function filterCompletedTodos() {
+  todoContainer.innerHTML = "";
+
+  const projectTitle = document.createElement("h1");
+  projectTitle.className = "project-title"
+  projectTitle.textContent = "Completed";
+  todoContainer.appendChild(projectTitle);
+
+  const todos = projects["All"] || []; 
+
+  todos.forEach((todo) => {
+    if (todo.completed == true) {
+
+      renderTodo(todo);
+    }
+  });
+
+}
 
 
+//renders all todos
 document.getElementById("all-project").addEventListener("click", () => {
   filterTodosByProject("All");
 });
-
+//renders only todos with the priority 'high'
 document.getElementById("important-project").addEventListener("click", () => {
   filterImportantTodos();
 });
+//renders complete todos
+document.getElementById("completed-project").addEventListener("click", () => {
+  filterCompletedTodos();
+})
 
 addTodo(
   "Need to start going to the Gym",
