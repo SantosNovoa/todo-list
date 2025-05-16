@@ -270,6 +270,12 @@ function renderTodo(todo) {
 }
 
 function removeTodo(todoId) {
+  for (const project in projects) {
+    const index = projects[project].findIndex((todo) => todo.id === todoId);
+    if (index !== -1) {
+      projects[project].splice(index, 1);
+    }
+  }
   const rowToRemove = document.querySelector(`.todo-row[data-id="${todoId}"]`);
   if (rowToRemove) {
     rowToRemove.remove();
