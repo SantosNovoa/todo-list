@@ -99,7 +99,6 @@ function addTodo(title, description, dueDate, priority, project) {
 }
 
 function renderTodo(todo) {
-  
   const newTodoRow = document.createElement("div");
   newTodoRow.className = "todo-row";
   todoContainer.appendChild(newTodoRow);
@@ -257,16 +256,16 @@ function renderTodo(todo) {
     }
   });
 
-//this code makes sure that the styling of the complete persists even after you've
-//clicked the completed tab on the sidebar
+  //this code makes sure that the styling of the complete persists even after you've
+  //clicked the completed tab on the sidebar
   if (todo.completed == true) {
-      complete.classList.replace("bi-circle", "bi-check-circle");
-      title.classList.add("task-done-text");
-      newTodoRow.style.backgroundColor = "#d8d8d8";
+    complete.classList.replace("bi-circle", "bi-check-circle");
+    title.classList.add("task-done-text");
+    newTodoRow.style.backgroundColor = "#d8d8d8";
   } else if (todo.completed == false) {
-      complete.classList.replace("bi-check-circle", "bi-circle");
-      title.classList.remove("task-done-text");
-      newTodoRow.style.backgroundColor = "#fff";
+    complete.classList.replace("bi-check-circle", "bi-circle");
+    title.classList.remove("task-done-text");
+    newTodoRow.style.backgroundColor = "#fff";
   }
 }
 
@@ -305,6 +304,7 @@ function submitProjectForm(e) {
 
   const project = projectName.value;
   addProject(project);
+  filterTodosByProject(project);
   projectForm.reset();
   projectModal.style.display = "none";
 }
@@ -326,7 +326,7 @@ function renderProject(projectName) {
   projectItem.classList.add("project-item");
   projectContainer.appendChild(projectItem);
 
-//update the dropdown menu for the add to do form
+  //update the dropdown menu for the add to do form
   const dropdownItem = document.createElement("option");
   dropdownItem.value = projectName;
   dropdownItem.textContent = projectName;
@@ -337,14 +337,14 @@ function renderProject(projectName) {
   });
 }
 
-addProject("Default Project")
-addProject("Default Project 2")
+addProject("Default Project");
+addProject("Default Project 2");
 
 function filterTodosByProject(projectName) {
   todoContainer.innerHTML = "";
 
   const projectTitle = document.createElement("h1");
-  projectTitle.className = "project-title"
+  projectTitle.className = "project-title";
   projectTitle.textContent = projectName;
   todoContainer.appendChild(projectTitle);
 
@@ -357,15 +357,15 @@ function filterImportantTodos() {
   todoContainer.innerHTML = "";
 
   const projectTitle = document.createElement("h1");
-  projectTitle.className = "project-title"
+  projectTitle.className = "project-title";
   projectTitle.textContent = "Important";
   todoContainer.appendChild(projectTitle);
 
   const todos = projects["All"] || [];
 
-  todos.forEach((todo) =>{
+  todos.forEach((todo) => {
     if (todo.priority === "High") {
-      renderTodo(todo)
+      renderTodo(todo);
     }
   });
 }
@@ -374,21 +374,18 @@ function filterCompletedTodos() {
   todoContainer.innerHTML = "";
 
   const projectTitle = document.createElement("h1");
-  projectTitle.className = "project-title"
+  projectTitle.className = "project-title";
   projectTitle.textContent = "Completed";
   todoContainer.appendChild(projectTitle);
 
-  const todos = projects["All"] || []; 
+  const todos = projects["All"] || [];
 
   todos.forEach((todo) => {
     if (todo.completed == true) {
-
       renderTodo(todo);
     }
   });
-
 }
-
 
 //renders all todos
 document.getElementById("all-project").addEventListener("click", () => {
@@ -401,32 +398,32 @@ document.getElementById("important-project").addEventListener("click", () => {
 //renders complete todos
 document.getElementById("completed-project").addEventListener("click", () => {
   filterCompletedTodos();
-})
+});
 
 addTodo(
-  "Need to start going to the Gym",
-  "I want to go to the gym and get strong",
+  "Empty task title 1",
+  "Test description with a lot of text to show the scroll bar.  Test description with a lot of text to show the scroll bar. Test description with a lot of text to show the scroll bar. ",
   "2025-05-12",
   "Medium",
   "Default Project 2"
 );
 addTodo(
-  "I want to read more books",
-  "I want to finish the book Demon Haunted World",
+  "Empty task title 2",
+  "Test descrirption with a little bit of text.",
   "2025-05-29",
   "High",
   "Default Project"
 );
 addTodo(
-  "Get that associates degree to transfer to a 4-year",
-  "I want graduate with my Associate of Science",
+  "Empty task title 3",
+  "Test descrirption with a little bit of text.",
   "2025-06-05",
   "High",
   "Default Project 2"
 );
 addTodo(
-  "I want to play some videogames over the summer",
-  "I want to play a lot of games",
+  "Empty task title 4",
+  "Test descrirption with a little bit of text.",
   "2025-05-06",
   "Low",
   "Default Project"
