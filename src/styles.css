@@ -234,7 +234,6 @@ body {
   overflow-y: scroll;
 } */
 
-
 span.info-task {
   width: 220px;
 }
@@ -255,10 +254,26 @@ span.info-task.desc {
   cursor: pointer;
 }
 
-#all-project, #important-project {
+#all-project,
+#important-project,
+#completed-project {
   cursor: pointer;
 }
 
 .project-title {
   color: white;
+}
+
+.navbar {
+  --bs-navbar-padding-x: 0;
+  --bs-navbar-padding-y: 0.5rem;
+  --bs-navbar-color: none;
+  --bs-navbar-hover-color: none;
+  --bs-navbar-disabled-color: none;
+  --bs-navbar-active-color: none;
+  --bs-navbar-brand-padding-y: 0.3125rem;
+  --bs-navbar-brand-margin-end: 1rem;
+  --bs-navbar-brand-font-size: 1.25rem;
+  --bs-navbar-brand-color: none;
+  --bs-navbar-brand-hover-color: none;
 }
