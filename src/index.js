@@ -15,7 +15,6 @@ const titleValue = document.getElementById("title");
 const descriptionValue = document.getElementById("description");
 const dueDateValue = document.getElementById("dueDate");
 const priorityValue = document.getElementById("priority");
-const projectValue = document.getElementById("taskProject");
 const titleDiv = document.querySelector(".title-div");
 const descriptionDiv = document.querySelector(".description-div");
 const dueDateDiv = document.querySelector(".due-date-div");
@@ -25,8 +24,10 @@ const projectContainer = document.querySelector(".project-container");
 const projectBtn = document.getElementById("project-btn");
 const projectName = document.getElementById("projectName");
 const todoForm = document.getElementById("newTodo");
-const dropdownProject = document.getElementById("taskProject");
 todoForm.addEventListener("submit", submitTodoForm);
+
+//track the currentProject
+let currentProject = null;
 
 const projectForm = document.getElementById("newProjectForm");
 projectForm.addEventListener("submit", submitProjectForm);
@@ -48,9 +49,9 @@ window.onclick = function (event) {
   }
 };
 
-addTodoBtn.onclick = function () {
-  todoModal.style.display = "block";
-};
+// addTodoBtn.onclick = function () {
+//   todoModal.style.display = "block";
+// };
 
 todoCloseBtn.onclick = function () {
   todoModal.style.display = "none";
@@ -293,7 +294,13 @@ function submitTodoForm(e) {
   const description = descriptionValue.value;
   const dueDate = dueDateValue.value;
   const priority = priorityValue.value;
-  const project = projectValue.value;
+  const project = currentProject;
+
+  if (!currentProject) {
+  alert("Please select a project before adding a task.");
+  return;
+}
+
 
   addTodo(title, description, dueDate, priority, project);
   todoForm.reset();
@@ -332,12 +339,6 @@ function renderProject(projectName) {
   projectItem.classList.add("project-item");
   projectContainer.appendChild(projectItem);
 
-  //update the dropdown menu for the add to do form
-  const dropdownItem = document.createElement("option");
-  dropdownItem.value = projectName;
-  dropdownItem.textContent = projectName;
-  dropdownProject.appendChild(dropdownItem);
-
   projectItem.addEventListener("click", () => {
     filterTodosByProject(projectName);
   });
@@ -353,6 +354,23 @@ function filterTodosByProject(projectName) {
   projectTitle.className = "project-title";
   projectTitle.textContent = projectName;
   todoContainer.appendChild(projectTitle);
+
+  currentProject = projectName;
+  const addTaskBtn = document.createElement("button");
+  addTaskBtn.textContent = "Add Task";
+  addTaskBtn.className = "btn btn-primary mb-3";
+
+
+  //prevents the user from adding a task to all completed or important sidebar status
+  const specialViews = ["All", "Completed", "Important"];
+  if (specialViews.includes(projectName)) {
+    addTaskBtn.style.display = "none";
+  }
+  addTaskBtn.onclick = () => {
+    todoModal.style.display = "block";
+  };
+
+  todoContainer.appendChild(addTaskBtn);
 
   const todos = projects[projectName] || [];
 
