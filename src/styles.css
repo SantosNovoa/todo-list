@@ -28,15 +28,13 @@ body {
   left: 0;
   bottom: 0;
   width: 250px;
-  padding: 40px;
   padding-top: 120px;
-  padding-left: 50px;
   display: flex;
   flex-direction: column;
   gap: 40px;
   font-size: 20px;
   background: #13b1fb;
-
+  align-items: center;
   color: white;
   box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.534);
 
@@ -248,23 +246,54 @@ span.info-task.desc {
 .project-container {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+  
 }
 
 .project-item {
   cursor: pointer;
+  background-color: #49c6ff;
+  border-radius: 5px;
+  padding: 5px 0 5px 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-#all-project,
-#important-project,
-#completed-project {
+.status-project {
   cursor: pointer;
+  background-color: #49c6ff;
+  border-radius: 5px;
+  padding: 5px 0 5px 15px;
+  width: 169.56px;
+}
+
+.status-project:hover {
+  outline: solid 2px #1f1d33;
 }
 
 .project-title {
   color: white;
 }
 
+#project-btn {
+  background-color: #f69f1c;
+  border-color: #f69f1c;
+  color: white;
+  width: 169.56px;
+  font-size: 20px;
+  display: flex;
+}
+
+#project-btn:hover {
+  outline: solid 2px #1f1d33;
+}
+
+.active {
+  background-color: #1d1d32;
+}
+
 .navbar {
+  padding: 25px 0 25px 0;
   --bs-navbar-padding-x: 0;
   --bs-navbar-padding-y: 0.5rem;
   --bs-navbar-color: none;
