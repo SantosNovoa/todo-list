@@ -297,10 +297,9 @@ function submitTodoForm(e) {
   const project = currentProject;
 
   if (!currentProject) {
-  alert("Please select a project before adding a task.");
-  return;
-}
-
+    alert("Please select a project before adding a task.");
+    return;
+  }
 
   addTodo(title, description, dueDate, priority, project);
   todoForm.reset();
@@ -339,7 +338,16 @@ function renderProject(projectName) {
   projectItem.classList.add("project-item");
   projectContainer.appendChild(projectItem);
 
+  const maxLength = 15; //max number of characters in project-item
+
+  if (projectItem.textContent.length > maxLength) {
+    projectItem.textContent =
+      projectItem.textContent.substring(0, maxLength) + "...";
+  }
+
   projectItem.addEventListener("click", () => {
+    clearActiveSidebar();
+    projectItem.classList.add("active");
     filterTodosByProject(projectName);
   });
 }
@@ -359,7 +367,6 @@ function filterTodosByProject(projectName) {
   const addTaskBtn = document.createElement("button");
   addTaskBtn.textContent = "Add Task";
   addTaskBtn.className = "btn btn-primary mb-3";
-
 
   //prevents the user from adding a task to all completed or important sidebar status
   const specialViews = ["All", "Completed", "Important"];
@@ -412,15 +419,24 @@ function filterCompletedTodos() {
 }
 
 //renders all todos
-document.getElementById("all-project").addEventListener("click", () => {
+const allprojectBtn = document.getElementById("all-project");
+allprojectBtn.addEventListener("click", () => {
+  clearActiveSidebar();
+  allprojectBtn.classList.add("active");
   filterTodosByProject("All");
 });
 //renders only todos with the priority 'high'
-document.getElementById("important-project").addEventListener("click", () => {
+const importantBtn = document.getElementById("important-project");
+importantBtn.addEventListener("click", () => {
+  clearActiveSidebar();
+  importantBtn.classList.add("active");
   filterImportantTodos();
 });
 //renders complete todos
-document.getElementById("completed-project").addEventListener("click", () => {
+const completedBtn = document.getElementById("completed-project");
+completedBtn.addEventListener("click", () => {
+  clearActiveSidebar();
+  completedBtn.classList.add("active");
   filterCompletedTodos();
 });
 
@@ -454,3 +470,9 @@ addTodo(
 );
 
 filterTodosByProject("Default Project");
+
+function clearActiveSidebar() {
+  document
+    .querySelectorAll(".project-item, .sidebar-container-one span")
+    .forEach((el) => el.classList.remove("active"));
+}
