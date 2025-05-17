@@ -21,13 +21,15 @@ const dueDateDiv = document.querySelector(".due-date-div");
 const priorityDiv = document.querySelector(".priority-div");
 const projectDiv = document.querySelector(".project-div");
 const projectContainer = document.querySelector(".project-container");
-const projectBtn = document.getElementById("project-btn");
 const projectName = document.getElementById("projectName");
 const todoForm = document.getElementById("newTodo");
 todoForm.addEventListener("submit", submitTodoForm);
 
 //track the currentProject
 let currentProject = null;
+
+//track the the todo being edited by id
+let editingTodoId = null;
 
 const projectForm = document.getElementById("newProjectForm");
 projectForm.addEventListener("submit", submitProjectForm);
@@ -148,6 +150,23 @@ function renderTodo(todo) {
     newTodoRow.classList.add("low-priority");
   }
 
+  //info button
+  const info = document.createElement("i");
+  info.className = "bi bi-info-circle";
+  const infoBtn = document.createElement("button");
+  infoBtn.className = "info";
+  infoBtn.appendChild(info);
+  rightSide.appendChild(infoBtn);
+
+  //edit button
+  const edit = document.createElement("i");
+  edit.className = "bi bi-pencil-square";
+  const editBtn = document.createElement("button");
+  editBtn.className = "edit";
+  editBtn.appendChild(edit);
+  rightSide.appendChild(editBtn);
+
+  //trash button
   const remove = document.createElement("i");
   remove.className = "bi bi-trash";
   const removeBtn = document.createElement("button");
@@ -155,12 +174,7 @@ function renderTodo(todo) {
   removeBtn.appendChild(remove);
   rightSide.appendChild(removeBtn);
 
-  const info = document.createElement("i");
-  info.className = "bi bi-info-circle";
-  const infoBtn = document.createElement("button");
-  infoBtn.className = "info";
-  infoBtn.appendChild(info);
-  rightSide.appendChild(infoBtn);
+  //appends all the buttons to the row
   newTodoRow.appendChild(rightSide);
 
   const infoModal = document.getElementById("infoModal");
@@ -176,6 +190,7 @@ function renderTodo(todo) {
     infoModal.style.display = "none";
   };
 
+  //info button event listener and opens the info modal
   infoBtn.onclick = function () {
     infoModal.style.display = "block";
 
@@ -242,7 +257,6 @@ function renderTodo(todo) {
   });
 
   //complete button event listener
-
   completeBtn.addEventListener("click", () => {
     if (complete.classList.contains("bi-circle")) {
       complete.classList.replace("bi-circle", "bi-check-circle");
@@ -255,6 +269,35 @@ function renderTodo(todo) {
       newTodoRow.style.backgroundColor = "#fff";
       todo.completed = false;
     }
+  });
+
+  //edit button event listener and opens the edit modal
+  editBtn.addEventListener("click", () => {
+    //change the modal header
+    const todoHeader = document.getElementById("todo-header");
+    todoHeader.textContent = "";
+    todoHeader.textContent = "Edit Task";
+
+    todoModal.style.display = "block";
+
+    const title = document.getElementById("title");
+    title.value = todo.title;
+
+    const description = document.getElementById("description");
+    description.value = todo.description;
+
+    const dueDate = document.getElementById("dueDate");
+    dueDate.value = todo.dueDate;
+
+    const priority = document.getElementById("priority");
+    priority.value = todo.priority;
+
+    const editTodoBtn = document.getElementById("todo-button");
+    editTodoBtn.textContent = "";
+    editTodoBtn.textContent = "Edit";
+
+    //set editingTodoId to the current todo being edited this way we can track which todo is selected
+    editingTodoId = todo.id;
   });
 
   //this code makes sure that the styling of the complete persists even after you've
@@ -301,7 +344,27 @@ function submitTodoForm(e) {
     return;
   }
 
-  addTodo(title, description, dueDate, priority, project);
+  if (editingTodoId != null) {
+    const index = projects[currentProject].findIndex(
+      (todo) => todo.id === editingTodoId
+    );
+
+    if (index != -1) {
+      const todo = projects[currentProject][index];
+      todo.title = titleValue.value;
+      todo.description = descriptionValue.value;
+      todo.dueDate = dueDateValue.value;
+      todo.priority = priorityValue.value;
+    }
+
+    filterTodosByProject(currentProject);
+    editingTodoId = null;
+    todoForm.reset();
+    todoModal.style.display = "none";
+    return;
+  }
+    addTodo(title, description, dueDate, priority, project);
+
   todoForm.reset();
   todoModal.style.display = "none";
 }
@@ -375,6 +438,11 @@ function filterTodosByProject(projectName) {
   }
   addTaskBtn.onclick = () => {
     todoModal.style.display = "block";
+    const todoHeader = document.getElementById("todo-header")
+    todoHeader.textContent = "New Task";
+    const todoBtn = document.getElementById("todo-button");
+    todoBtn.textContent = "Add Task";
+    todoForm.reset();
   };
 
   todoContainer.appendChild(addTaskBtn);
