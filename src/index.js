@@ -401,7 +401,7 @@ function renderProject(projectName) {
   projectItem.classList.add("project-item");
   projectContainer.appendChild(projectItem);
 
-  const maxLength = 15; //max number of characters in project-item
+  const maxLength = 22; //max number of characters in project-item
 
   if (projectItem.textContent.length > maxLength) {
     projectItem.textContent =
