@@ -19,7 +19,7 @@ body {
 }
 
 .navbar-brand {
-  padding-left: 40px;
+  padding-left: 20px;
   color: white;
 }
 .sidebar {
@@ -27,24 +27,23 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 250px;
+  width: 300px;
   padding-top: 120px;
   display: flex;
   flex-direction: column;
   gap: 40px;
   font-size: 20px;
   background: #13b1fb;
-  align-items: center;
+  padding-left: 20px;
   color: white;
   box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.534);
-
   transform: translateX(0);
   transition: transform 0.3s ease-in-out;
   z-index: 10; /* under nav but above content */
 }
 .sidebar.closed {
   /* slide it exactly its own width to the left */
-  transform: translateX(-250px);
+  transform: translateX(-300px);
   pointer-events: none;
 }
 .projects {
@@ -56,9 +55,10 @@ body {
   gap: 15px;
 }
 
-.btn-light {
-  width: 140px;
+.sidebar-container-two > * {
+  width: 90%;
 }
+
 
 .content-container {
   position: relative;
@@ -101,7 +101,11 @@ body {
 .custom-container {
   display: flex;
   gap: 20px;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.custom-container > * {
+  padding: 10px;
 }
 
 .form-group {
@@ -155,7 +159,7 @@ body {
 
 .todo-row {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
   width: 65%;
   display: flex;
   padding: 10px;
@@ -167,10 +171,13 @@ body {
   padding-bottom: 0.5rem;
 }
 
+
+/* removes the default styling of the buttons */
 .remove,
 .complete,
 .info,
-.sidebar-btn {
+.sidebar-btn,
+.edit {
   background: none;
   color: inherit;
   border: none;
@@ -259,16 +266,20 @@ span.info-task.desc {
   white-space: nowrap;
 }
 
+.project-item:hover {
+  outline: solid 2px #1696e4;
+}
+
 .status-project {
   cursor: pointer;
   background-color: #49c6ff;
   border-radius: 5px;
   padding: 5px 0 5px 15px;
-  width: 169.56px;
+  width: 90%;
 }
 
 .status-project:hover {
-  outline: solid 2px #1f1d33;
+  outline: solid 2px #1696e4;
 }
 
 .project-title {
@@ -279,17 +290,15 @@ span.info-task.desc {
   background-color: #f69f1c;
   border-color: #f69f1c;
   color: white;
-  width: 169.56px;
-  font-size: 20px;
-  display: flex;
+  margin: 5px
 }
 
 #project-btn:hover {
-  outline: solid 2px #1f1d33;
+  outline: solid 2px #1696e4;
 }
 
 .active {
-  background-color: #1d1d32;
+  background-color: #1696e4;
 }
 
 .navbar {
