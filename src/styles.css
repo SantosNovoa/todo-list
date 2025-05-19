@@ -59,6 +59,11 @@ body {
   width: 90%;
 }
 
+.projects-button-container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 0.5px rgba(255, 255, 255, 0.404) solid;
+}
 
 .content-container {
   position: relative;
@@ -171,13 +176,15 @@ body {
   padding-bottom: 0.5rem;
 }
 
-
 /* removes the default styling of the buttons */
 .remove,
 .complete,
 .info,
 .sidebar-btn,
-.edit {
+.edit,
+#project-btn,
+.edit-project-btn,
+.delete-project-btn {
   background: none;
   color: inherit;
   border: none;
@@ -254,7 +261,6 @@ span.info-task.desc {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  
 }
 
 .project-item {
@@ -264,6 +270,16 @@ span.info-task.desc {
   padding: 5px 0 5px 15px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: flex;
+  justify-content: space-between;
+}
+
+#modal-delete-header {
+  background-color: var(--bs-red);
+}
+
+.project-btns {
+  margin-right: 5px;
 }
 
 .project-item:hover {
@@ -284,21 +300,17 @@ span.info-task.desc {
 
 .project-title {
   color: white;
-}
-
-#project-btn {
-  background-color: #f69f1c;
-  border-color: #f69f1c;
-  color: white;
-  margin: 5px
-}
-
-#project-btn:hover {
-  outline: solid 2px #1696e4;
+  border-bottom: 0.5px rgba(255, 255, 255, 0.205) solid;
+  width: 65%;
+  text-align: center;
 }
 
 .active {
   background-color: #1696e4;
+}
+
+i.bi.bi-plus-circle-fill {
+  color: #f69f1c;
 }
 
 .navbar {
