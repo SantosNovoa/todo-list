@@ -22,13 +22,23 @@ const priorityDiv = document.querySelector(".priority-div");
 const projectDiv = document.querySelector(".project-div");
 const projectContainer = document.querySelector(".project-container");
 const projectName = document.getElementById("projectName");
+const confirmDeleteModal = document.getElementById("confirmDeleteProjectModal");
+const cancelDeleteProject = document.getElementById(
+  "cancel-project-delete-btn"
+);
+const confirmDeleteProject = document.getElementById(
+  "confirm-project-delete-btn"
+);
+const closeDeleteModal = document.getElementById("cancel-delete-project")
+let pendingDeleteProject = null;
+
 const todoForm = document.getElementById("newTodo");
 todoForm.addEventListener("submit", submitTodoForm);
 
 //track the currentProject
 let currentProject = null;
 
-//track the the todo being edited by id
+//track the todo being edited by id
 let editingTodoId = null;
 
 const projectForm = document.getElementById("newProjectForm");
@@ -46,21 +56,29 @@ document.getElementById("sidebar-toggle").addEventListener("click", () => {
 window.onclick = function (event) {
   if (event.target === todoModal) {
     todoModal.style.display = "none";
+    editingTodoId = null;
   } else if (event.target === projectModal) {
     projectModal.style.display = "none";
   }
 };
 
-// addTodoBtn.onclick = function () {
-//   todoModal.style.display = "block";
-// };
+closeDeleteModal.onclick = () => {
+  confirmDeleteModal.style.display = "none";
+}
+
+cancelDeleteProject.onclick = () => {
+  pendingDeleteProject = null;
+  confirmDeleteModal.style.display = "none";
+};
 
 todoCloseBtn.onclick = function () {
   todoModal.style.display = "none";
+  editingTodoId = null;
 };
 
 closeBtnTodo.onclick = function () {
   todoModal.style.display = "none";
+  editingTodoId = null;
 };
 
 projectCloseBtn.onclick = function () {
@@ -73,6 +91,29 @@ addProjectBtn.onclick = function () {
 
 closeBtnProject.onclick = function () {
   projectModal.style.display = "none";
+};
+
+confirmDeleteProject.onclick = () => {
+  const name = pendingDeleteProject;
+
+  //remove the project from the projects array
+  delete projects[name];
+  projects.All = projects.All.filter((t) => t.project !== name);
+
+  //remove the project from the sidebar
+  const items = Array.from(projectContainer.children);
+  const nodeToRemove = items.find((el) => el.textContent.trim() === name);
+  if (nodeToRemove) nodeToRemove.remove();
+
+  //switch back to “All”
+  if (currentProject === name) {
+    document.getElementById("all-project").classList.add("active");
+    filterTodosByProject("All");
+  }
+
+  //clean up
+  pendingDeleteProject = null;
+  confirmDeleteModal.style.display = "none";
 };
 
 class TodoItem {
@@ -363,7 +404,7 @@ function submitTodoForm(e) {
     todoModal.style.display = "none";
     return;
   }
-    addTodo(title, description, dueDate, priority, project);
+  addTodo(title, description, dueDate, priority, project);
 
   todoForm.reset();
   todoModal.style.display = "none";
@@ -371,6 +412,27 @@ function submitTodoForm(e) {
 
 function submitProjectForm(e) {
   e.preventDefault();
+
+  const newName = projectName.value.trim();
+  if (editingProjectName) {
+    // move data
+    projects[newName] = projects[editingProjectName];
+    delete projects[editingProjectName];
+    projects[newName].forEach((todo) => (todo.project = newName));
+
+    // rename sidebar node
+    const node = [...projectContainer.children].find((el) =>
+      el.textContent.includes(editingProjectName)
+    );
+    node.firstChild.textContent = newName; // assuming the text node is first
+
+    // reset modal chrome
+    document.getElementById("model-Title").textContent = "New Project";
+    document.getElementById("project-btn-two").textContent = "Add Project";
+    editingProjectName = null;
+    projectModal.style.display = "none";
+    return;
+  }
 
   if (!projectForm.checkValidity()) {
     projectForm.reportValidity();
@@ -400,6 +462,21 @@ function renderProject(projectName) {
   projectItem.textContent = projectName;
   projectItem.classList.add("project-item");
   projectContainer.appendChild(projectItem);
+
+  const btnGroup = document.createElement("div");
+  btnGroup.className = "project-btns";
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "delete-project-btn";
+  deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
+  btnGroup.appendChild(deleteBtn);
+
+  deleteBtn.addEventListener("click", () => {
+    pendingDeleteProject = projectName;
+    confirmDeleteModal.style.display = "block";
+  });
+
+  projectItem.appendChild(btnGroup);
 
   const maxLength = 22; //max number of characters in project-item
 
@@ -437,8 +514,9 @@ function filterTodosByProject(projectName) {
     addTaskBtn.style.display = "none";
   }
   addTaskBtn.onclick = () => {
+    editingTodoId = null;
     todoModal.style.display = "block";
-    const todoHeader = document.getElementById("todo-header")
+    const todoHeader = document.getElementById("todo-header");
     todoHeader.textContent = "New Task";
     const todoBtn = document.getElementById("todo-button");
     todoBtn.textContent = "Add Task";
