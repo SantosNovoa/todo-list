@@ -36,7 +36,7 @@
           <span class="projects"
           ><i class="bi bi-file-earmark-diff-fill"></i> Projects</span>
           <button type="submit" class="btn btn-light" id="project-btn">
-          +
+            <i class="bi bi-plus-circle-fill"></i>
         </button></div>
         <div class="project-container">
         </div>
@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <div class="modal fade show" id="newProjectModal">
+    <div class="modal" id="newProjectModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -221,5 +221,24 @@
         </div>
       </div>
     </div>
+
+    <div class="modal" id="confirmDeleteProjectModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header" id="modal-delete-header">
+            <h5 class="modal-title">Delete Project?</h5>
+            <button type="button" class="btn-close" id="cancel-delete-project"></button>
+          </div>
+          <div class="modal-body">
+            <p>All tasks in this project will be permanently removed. Continue?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancel-project-delete-btn">Cancel</button>
+            <button type="button" class="btn btn-danger"   id="confirm-project-delete-btn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </body>
 </html>
