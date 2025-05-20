@@ -1,8 +1,6 @@
 import "./styles.css";
+// console.log("hello world");
 
-console.log("hello world");
-
-const addTodoBtn = document.getElementById("todoBtn");
 const todoModal = document.querySelector(".modal");
 const todoCloseBtn = document.getElementById("todo-close");
 const closeBtnTodo = document.getElementById("close-btn-todo");
@@ -29,7 +27,7 @@ const cancelDeleteProject = document.getElementById(
 const confirmDeleteProject = document.getElementById(
   "confirm-project-delete-btn"
 );
-const closeDeleteModal = document.getElementById("cancel-delete-project")
+const closeDeleteModal = document.getElementById("cancel-delete-project");
 let pendingDeleteProject = null;
 
 const todoForm = document.getElementById("newTodo");
@@ -64,7 +62,7 @@ window.onclick = function (event) {
 
 closeDeleteModal.onclick = () => {
   confirmDeleteModal.style.display = "none";
-}
+};
 
 cancelDeleteProject.onclick = () => {
   pendingDeleteProject = null;
@@ -99,11 +97,13 @@ confirmDeleteProject.onclick = () => {
   //remove the project from the projects array
   delete projects[name];
   projects.All = projects.All.filter((t) => t.project !== name);
+  saveToLocalStorage();
 
   //remove the project from the sidebar
   const items = Array.from(projectContainer.children);
   const nodeToRemove = items.find((el) => el.textContent.trim() === name);
   if (nodeToRemove) nodeToRemove.remove();
+  saveToLocalStorage();
 
   //switch back to “All”
   if (currentProject === name) {
@@ -135,9 +135,9 @@ function addTodo(title, description, dueDate, priority, project) {
     projects[project] = [];
   }
 
-  projects[project].push(newTodo);
   projects.All.push(newTodo);
   console.log(projects[project]);
+  saveToLocalStorage();
 
   renderTodo(newTodo);
 }
@@ -304,11 +304,13 @@ function renderTodo(todo) {
       title.classList.add("task-done-text");
       newTodoRow.style.backgroundColor = "#d8d8d8";
       todo.completed = true;
+      saveToLocalStorage()
     } else {
       complete.classList.replace("bi-check-circle", "bi-circle");
       title.classList.remove("task-done-text");
       newTodoRow.style.backgroundColor = "#fff";
       todo.completed = false;
+      saveToLocalStorage()
     }
   });
 
@@ -347,10 +349,12 @@ function renderTodo(todo) {
     complete.classList.replace("bi-circle", "bi-check-circle");
     title.classList.add("task-done-text");
     newTodoRow.style.backgroundColor = "#d8d8d8";
+    saveToLocalStorage()
   } else if (todo.completed == false) {
     complete.classList.replace("bi-check-circle", "bi-circle");
     title.classList.remove("task-done-text");
     newTodoRow.style.backgroundColor = "#fff";
+    saveToLocalStorage()
   }
 }
 
@@ -360,6 +364,7 @@ function removeTodo(todoId) {
     if (index !== -1) {
       projects[project].splice(index, 1);
     }
+    saveToLocalStorage();
   }
   const rowToRemove = document.querySelector(`.todo-row[data-id="${todoId}"]`);
   if (rowToRemove) {
@@ -396,12 +401,14 @@ function submitTodoForm(e) {
       todo.description = descriptionValue.value;
       todo.dueDate = dueDateValue.value;
       todo.priority = priorityValue.value;
+      saveToLocalStorage();
     }
 
     filterTodosByProject(currentProject);
     editingTodoId = null;
     todoForm.reset();
     todoModal.style.display = "none";
+
     return;
   }
   addTodo(title, description, dueDate, priority, project);
@@ -446,9 +453,52 @@ function submitProjectForm(e) {
   projectModal.style.display = "none";
 }
 
-const projects = {
-  All: [],
-};
+const storedProjects = localStorage.getItem("todoProjects");
+const projects = storedProjects ? JSON.parse(storedProjects) : { All: [] };
+
+if (!storedProjects) {
+  addProject("Default Project");
+  addProject("Default Project 2");
+
+  addTodo(
+    "Empty task title 1",
+    "Test description with a lot of text to show the scroll bar.",
+    "2025-05-12",
+    "Medium",
+    "Default Project 2"
+  );
+  addTodo(
+    "Empty task title 2",
+    "Test descrirption with a little bit of text.",
+    "2025-05-29",
+    "High",
+    "Default Project"
+  );
+  addTodo(
+    "Empty task title 3",
+    "Test descrirption with a little bit of text.",
+    "2025-06-05",
+    "High",
+    "Default Project 2"
+  );
+  addTodo(
+    "Empty task title 4",
+    "Test descrirption with a little bit of text.",
+    "2025-05-06",
+    "Low",
+    "Default Project"
+  );
+}
+
+Object.keys(projects).forEach((projectName) => {
+  if (projectName !== "All") {
+    renderProject(projectName);
+  }
+});
+
+function saveToLocalStorage() {
+  localStorage.setItem("todoProjects", JSON.stringify(projects));
+}
 
 function addProject(name) {
   if (!projects[name]) {
@@ -492,9 +542,6 @@ function renderProject(projectName) {
   });
 }
 
-addProject("Default Project");
-addProject("Default Project 2");
-
 function filterTodosByProject(projectName) {
   todoContainer.innerHTML = "";
 
@@ -525,9 +572,13 @@ function filterTodosByProject(projectName) {
 
   todoContainer.appendChild(addTaskBtn);
 
-  const todos = projects[projectName] || [];
-
-  todos.forEach((todo) => renderTodo(todo));
+  let todos;
+  if (projectName === "All") {
+    todos = projects.All;
+  } else {
+    todos = projects.All.filter(t => t.project === projectName);
+  }
+  todos.forEach(renderTodo);
 }
 
 function filterImportantTodos() {
@@ -586,36 +637,12 @@ completedBtn.addEventListener("click", () => {
   filterCompletedTodos();
 });
 
-addTodo(
-  "Empty task title 1",
-  "Test description with a lot of text to show the scroll bar.  Test description with a lot of text to show the scroll bar. Test description with a lot of text to show the scroll bar. ",
-  "2025-05-12",
-  "Medium",
-  "Default Project 2"
-);
-addTodo(
-  "Empty task title 2",
-  "Test descrirption with a little bit of text.",
-  "2025-05-29",
-  "High",
-  "Default Project"
-);
-addTodo(
-  "Empty task title 3",
-  "Test descrirption with a little bit of text.",
-  "2025-06-05",
-  "High",
-  "Default Project 2"
-);
-addTodo(
-  "Empty task title 4",
-  "Test descrirption with a little bit of text.",
-  "2025-05-06",
-  "Low",
-  "Default Project"
-);
-
-filterTodosByProject("Default Project");
+if (Object.keys(projects).length > 1) {
+  const firstProject = Object.keys(projects).find((p) => p !== "All");
+  filterTodosByProject(firstProject);
+} else {
+  filterTodosByProject("All");
+}
 
 function clearActiveSidebar() {
   document
